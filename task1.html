@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1</title>
+</head>
+<body>
+    <script>
+        var firstName = prompt('What is your first name ?');
+        var lasttName = prompt('What is your last name ?');
+        var isFullName = confirm('Did you enter your full name?');
+        // console.log(isFullName);
+        if(isFullName){
+        var birthYear = prompt('What is your birth year ?');
+        alert("Welcome, "+ firstName +" " +lasttName +" you are "+(2023 - birthYear) + " years old");
+        }
+        var message = alert("it’s the first release of a calculator that only has a summation feature.");
+        var firstNumber = Number(prompt('Enter the first number'));
+        var secondNumber = Number(prompt('Enter the second number'));
+        var result = alert (firstNumber+" + "+secondNumber+" = "+(firstNumber + secondNumber));
+    </script>
+    
+</body>
+</html>

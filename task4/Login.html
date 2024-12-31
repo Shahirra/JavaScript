@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+       background-color: green; 
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+        background-color: #fff;
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: small;
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 18px;
+      color: #4CAF50;
+      margin-top: 20px;
+    }
+
+    .register {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .register a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <form id="loginForm" action="#" method="post">
+    <div>
+      <h2>Login</h2>
+    </div>
+    <div>
+      <label for="username">Username:</label> 
+      <input type="text" id="username" name="username" placeholder="username"> 
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="password">
+    </div>
+    <div>
+      <input type="submit" value="Login" style="color: #fff;">
+    </div>
+    <div id="errorMessage" class="error"></div>
+    <div class="register">
+     <p style="font-size: small;">Not registered? <a href="#"> Create an account</a></p>
+    </div>
+  </form>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      // Get form inputs
+      var usernameInput = document.getElementById("username"); 
+      var passwordInput = document.getElementById("password");
+
+      // Reset error message
+      var errorMessage = document.getElementById("errorMessage");
+      errorMessage.textContent = "";
+
+      // Validate inputs
+      var username = usernameInput.value.trim(); 
+      var password = passwordInput.value.trim();
+
+      if (username === "" || password === "") { 
+        errorMessage.textContent = "*Please enter both username and password."; 
+         event.preventDefault(); // Prevent form submission  
+        return;
+      }
+
+      // Password validation using regular expression
+      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      if (!passwordRegex.test(password)) {
+        errorMessage.textContent = "*Password should contain at least 8 characters including uppercase letters, lowercase letters, and numbers.";
+         event.preventDefault(); // Prevent form submission
+         return;
+      }
+
+      // Form is valid, perform login check
+    //   var login = {
+    //     username: username, 
+    //     password: password
+    //   };
+
+    //   if (login.username === "admin" && login.password === "123") { 
+    //     // Successful login
+    //     var welcomeMessage = document.createElement("p");
+    //     welcomeMessage.textContent = "Welcome";
+    //     welcomeMessage.className = "welcome";
+    //     document.body.appendChild(welcomeMessage);
+    //   } else {
+    //     // Invalid credentials
+    //     errorMessage.textContent = "Invalid username or password.";
+    //   }
+    });
+    document.getElementById("loginForm").addEventListener("click", function() {
+    var errorMessage = document.getElementById("errorMessage");
+    errorMessage.textContent = ""; // Clear error message
+    });
+  </script>
+</body> 
+</html>

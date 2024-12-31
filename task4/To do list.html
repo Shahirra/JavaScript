@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To Do List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .task-input {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .task-input input {
+      flex: 1;
+      padding: 5px;
+    }
+
+    .task-input button {
+      margin-left: 10px;
+    }
+
+    .task-list {
+      width: 80%;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
+
+    .task-item.done {
+      background-color: #e0f2e9;
+      text-decoration: line-through;
+    }
+
+    .task-item .actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .task-item .actions button {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>My To Do List</h1>
+  <div class="task-input">
+    <input type="text" id="taskInput" placeholder="Enter task name">
+    <button class="btn btn-primary" onclick="addTask()"><i class="fas fa-plus"></i></button>
+  </div>
+
+  <div class="task-list" id="taskList"></div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    // Function to add a new task
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskName = taskInput.value.trim();
+
+      if (taskName) {
+        const task = {
+          name: taskName,
+          done: false
+        };
+
+        // Get existing tasks from local storage
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        // Add the new task to the tasks array
+        tasks.push(task);
+
+        // Save the updated tasks array back to local storage
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        // Clear the task input
+        taskInput.value = "";
+
+        // Refresh the task list
+        renderTasks();
+
+        // Optionally, you can display a success message
+        console.log("Task added successfully!");
+      }
+    }
+
+    // Function to handle keydown event on the input field
+    function handleKeyDown(event) {
+      if (event.key === "Enter") {
+        addTask();
+      }
+    }
+
+    // Function to mark a task as done
+    function toggleTaskDone(index) {
+      // Get tasks from local storage
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      // Toggle the "done" status of the task
+      tasks[index].done = !tasks[index].done;
+
+      // Save the updated tasks array back to local storage
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+
+      // Refresh the task list
+      renderTasks();
+    }
+
+    // Function to delete a task
+    function deleteTask(index) {
+      // Get tasks from local storage
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      // Remove the task at the specified index
+      tasks.splice(index, 1);
+
+      // Save the updated tasks array back to local storage
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+
+      // Refresh the task list
+      renderTasks();
+    }
+
+    // Function to render the tasks
+    function renderTasks() {
+      const taskList = document.getElementById("taskList");
+
+      // Clear the existing task list
+      taskList.innerHTML = "";
+
+      // Get tasks from local storage
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      // Loop through the tasks and create the HTML elements
+      tasks.forEach((task, index) => {
+        const taskItem = document.createElement("div");
+        taskItem.className = "task-item" + (task.done ? " done" : "");
+
+        const taskName = document.createElement("span");
+        taskName.textContent = task.name;
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const doneButton = document.createElement("button");
+        doneButton.className = "btn btn-success";
+        doneButton.innerHTML = '<i class="fas fa-check"></i>';
+        doneButton.onclick = () => toggleTaskDone(index);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-danger";
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteButton.onclick = () => deleteTask(index);
+
+        actions.appendChild(doneButton);
+        actions.appendChild(deleteButton);
+
+        taskItem.appendChild(taskName);
+        taskItem.appendChild(actions);
+
+        taskList.appendChild(taskItem);
+      });
+    }
+
+    // Render the tasks when the page loads
+    renderTasks();
+
+    // Add event listener for the "keydown" event on the input field
+    const taskInput = document.getElementById("taskInput");
+    taskInput.addEventListener("keydown", handleKeyDown);
+
+    // Handle keydown event on the input field
+    function handleKeyDown(event) {
+      if (event.key === "Enter") {
+        addTask();
+      }
+    }
+  </script>
+</body>
+</html>

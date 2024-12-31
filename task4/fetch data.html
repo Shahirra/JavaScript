@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Data</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    img {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <h1>Users Data</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="userData"></tbody>
+  </table>
+
+  <script>
+    // Fetch user data from the API
+    fetch("https://reqres.in/api/users?page=2")
+    .then(response => response.json())
+    .then(data => {
+      // Get the "userData" tbody element
+      const userDataTbody = document.getElementById("userData");
+
+      // Iterate over each user object
+      data.data.forEach(user => {
+        // Create a new row
+        const row = document.createElement("tr");
+
+        // Create cells for image and email
+        const imageCell = document.createElement("td");
+        const imageElement = document.createElement("img");
+        imageElement.src = user.avatar;
+        imageCell.appendChild(imageElement);
+
+        const emailCell = document.createElement("td");
+        emailCell.textContent = user.email;
+
+        // Append cells to the row
+        row.appendChild(imageCell);
+        row.appendChild(emailCell);
+
+        // Append the row to the table body
+        userDataTbody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  </script>
+</body>
+</html>
